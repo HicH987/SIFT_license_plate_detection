@@ -28,25 +28,9 @@ def get_plate(image_path, wpod, Dmax=608, Dmin=256):
 def save_img(im, path_save):
     img = im
     min_val, max_val = img.min(), img.max()
-
     img = 255.0 * (img - min_val) / (max_val - min_val)
-
     img = img.astype(np.uint8)
-
     cv2.imwrite(path_save, img[:, :, ::-1])
-
-
-# def load_model(path):
-#     try:
-#         path = splitext(path)[0]
-#         with open("%s.json" % path, "r") as json_file:
-#             model_json = json_file.read()
-#         model = model_from_json(model_json, custom_objects={})
-#         model.load_weights("%s.h5" % path)
-#         print("Loading model successfully...")
-#         return model
-#     except Exception as e:
-#         print(e)
 
 
 def extract_mat(path_cars, path_save_mat):
@@ -69,19 +53,3 @@ def extract_mat(path_cars, path_save_mat):
             print(f"image {i} saved!!")
         except:
             print(f"can't extract from image {i}")
-
-
-# wpod_net_path = "./model/wpod-net.json"
-# wpod_net = load_model(wpod_net_path)
-
-
-# im_path = "./car/*.jpg"
-# image_paths = sorted(glob.glob(im_path), key=len)
-# for i, im in enumerate(image_paths):
-#     try:
-#         LpImg, cor = get_plate(im, wpod_net)
-#         path = "./mat/" + str(i) + ".jpg"
-#         save_img(LpImg[0], path)
-#         print(f"image {i} saved!!")
-#     except:
-#         print(f"can't extract from image {i}")
