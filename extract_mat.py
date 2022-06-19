@@ -1,11 +1,10 @@
 import cv2
 import glob
 import numpy as np
-from os.path import splitext
 from utils.local_utils import detect_lp
-from keras.models import model_from_json, load_model
+from keras.models import load_model
 
-
+# https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/%5BPart%201%5DLicense_plate_detection.ipynb
 def preprocess_image(image_path, resize=False):
     img = cv2.imread(image_path)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -15,6 +14,7 @@ def preprocess_image(image_path, resize=False):
     return img
 
 
+# https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/%5BPart%201%5DLicense_plate_detection.ipynb
 def get_plate(image_path, wpod, Dmax=608, Dmin=256):
     wpod_net = wpod
     vehicle = preprocess_image(image_path)
@@ -25,6 +25,7 @@ def get_plate(image_path, wpod, Dmax=608, Dmin=256):
     return LpImg, cor
 
 
+# fonction pour reconstruire les images modifie par "preprocess_image" et "get_plate"
 def save_img(im, path_save):
     img = im
     min_val, max_val = img.min(), img.max()
@@ -33,8 +34,9 @@ def save_img(im, path_save):
     cv2.imwrite(path_save, img[:, :, ::-1])
 
 
+# fonction pour charge le modele prédéfini et extraire les matricules
 def extract_mat(path_cars, path_save_mat):
-    # path_model = "./model/wpod-net.json"
+# charge le modele
     path_model = "./model/model.h5"
     try:
         extract_model = load_model(path_model, compile=False)
@@ -43,6 +45,7 @@ def extract_mat(path_cars, path_save_mat):
         print("can't load the model")
         exit
 
+# extraire les matricules
     im_path = path_cars + "/*.jpg"
     image_paths = sorted(glob.glob(im_path), key=len)
     for i, im in enumerate(image_paths):
