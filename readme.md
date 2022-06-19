@@ -10,7 +10,7 @@
 
   - fonction `get_plate`: https://github.com/quangnhat185/Plate_detect_and_recognize/blob/master/%5BPart%201%5DLicense_plate_detection.ipynb
 
-## description des fichiers
+## Description des fichiers du projet
 
 - ### dataset
   
